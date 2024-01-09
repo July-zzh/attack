@@ -51,9 +51,7 @@ def read_directory(directory_name, to_path, origin_model):
         grad = get_grad_dl(origin_model, img, y, device)
         g_w = grad[-2]
         g_b = grad[-1]
-        # offset_w = torch.stack([g for idx, g in enumerate(g_w) if idx not in y], dim=0).mean(dim=0) * (1 - 1) / 1
-        # offset_b = torch.stack([g for idx, g in enumerate(g_b) if idx not in y], dim=0).mean() * (1 - 1) / 1
-        conv_out = (g_w[y]) / (g_b[y]).unsqueeze(1)
+        conv_out = (g_w) / (g_b).unsqueeze(1)
         conv_out[torch.isnan(conv_out)] = 0.
         conv_out[torch.isinf(conv_out)] = 0.
         to_path = to_path + "/" + filename + ".pt"
